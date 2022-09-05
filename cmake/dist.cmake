@@ -141,7 +141,7 @@ macro ( install_executable )
       set_target_properties ( ${_file} PROPERTIES VERSION ${DIST_VERSION}
                               SOVERSION ${DIST_VERSION} )
     endif ()
-    install ( TARGETS ${_file} RUNTIME DESTINATION ${INSTALL_BIN}
+    install ( TARGETS ${_file} EXPORT ${targetsFile} RUNTIME DESTINATION ${INSTALL_BIN}
               COMPONENT Runtime CONFIGURATIONS Release )
   endforeach()
 endmacro ()
