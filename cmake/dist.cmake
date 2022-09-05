@@ -50,16 +50,16 @@ message ( "DIST_DEPENDS: ${DIST_DEPENDS}")
 
 ## INSTALL DEFAULTS (Relative to CMAKE_INSTALL_PREFIX)
 # Primary paths
-set ( INSTALL_BIN bin CACHE PATH "Where to install binaries to." )
-set ( INSTALL_LIB lib CACHE PATH "Where to install libraries to." )
-set ( INSTALL_INC include CACHE PATH "Where to install headers to." )
-set ( INSTALL_ETC etc CACHE PATH "Where to store configuration files" )
-set ( INSTALL_SHARE share CACHE PATH "Directory for shared data." )
+set ( INSTALL_BIN ${CMAKE_INSTALL_BINDIR} CACHE PATH "Where to install binaries to." )
+set ( INSTALL_LIB ${CMAKE_INSTALL_LIBDIR} CACHE PATH "Where to install libraries to." )
+set ( INSTALL_INC ${CMAKE_INSTALL_INCLUDEDIR} CACHE PATH "Where to install headers to." )
+set ( INSTALL_ETC ${CMAKE_INSTALL_SYSCONFDIR} CACHE PATH "Where to store configuration files" )
+set ( INSTALL_SHARE ${CMAKE_INSTALL_DATADIR} CACHE PATH "Directory for shared data." )
 
 # Secondary paths
 option ( INSTALL_VERSION
       "Install runtime libraries and executables with version information." OFF)
-set ( INSTALL_DATA ${INSTALL_SHARE}/${DIST_NAME}_${DIST_VERSION} CACHE PATH
+set ( INSTALL_DATA ${INSTALL_SHARE}/${DIST_NAME} CACHE PATH
       "Directory the package can store documentation, tests or other data in.")  
 set ( INSTALL_DOC  ${INSTALL_DATA}/doc CACHE PATH
       "Recommended directory to install documentation into.")
@@ -140,8 +140,6 @@ macro ( install_executable )
     if ( INSTALL_VERSION )
       set_target_properties ( ${_file} PROPERTIES VERSION ${DIST_VERSION}
                               SOVERSION ${DIST_VERSION} )
-    else ()
-      set_target_properties ( ${_file} PROPERTIES OUTPUT_NAME ${_file}${ver} )
     endif ()
     install ( TARGETS ${_file} RUNTIME DESTINATION ${INSTALL_BIN}
               COMPONENT Runtime CONFIGURATIONS Release )
@@ -166,10 +164,13 @@ macro ( install_library )
               LIBRARY DESTINATION ${INSTALL_LIB} COMPONENT Runtime 
               ARCHIVE DESTINATION ${INSTALL_LIB} COMPONENT Library )
   endforeach()
-  if ( DEFINED XP_NAMESPACE )
-    set ( nameSpace NAMESPACE ${XP_NAMESPACE}:: )
-  endif ()
-  install ( EXPORT ${targetsFile} DESTINATION ${INSTALL_LIB}/cmake ${nameSpace} )
+  if(DEFINED XP_NAMESPACE)
+    set(nameSpace NAMESPACE ${XP_NAMESPACE}::)
+  endif()
+  if(NOT DEFINED XP_INSTALL_CMAKEDIR)
+    set(XP_INSTALL_CMAKEDIR ${INSTALL_SHARE}/cmake)
+  endif()
+  install(EXPORT ${targetsFile} DESTINATION ${XP_INSTALL_CMAKEDIR} ${nameSpace})
 endmacro ()
 
 # helper function for various install_* functions, for PATTERN/REGEX args.
