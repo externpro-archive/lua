@@ -4,8 +4,8 @@
 # For details see the COPYRIGHT file distributed with LuaDist.
 # Please note that the package source code is licensed under its own license.
 
-project ( lua C )
 cmake_minimum_required ( VERSION 2.8...3.21 )
+project ( lua C )
 include(GNUInstallDirs)
 include(flags OPTIONAL)
 include ( cmake/dist.cmake )
