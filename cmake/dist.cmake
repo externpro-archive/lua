@@ -59,15 +59,15 @@ set ( INSTALL_SHARE ${CMAKE_INSTALL_DATADIR} CACHE PATH "Directory for shared da
 # Secondary paths
 option ( INSTALL_VERSION
       "Install runtime libraries and executables with version information." OFF)
-set ( INSTALL_DATA ${INSTALL_SHARE}/${DIST_NAME} CACHE PATH
-      "Directory the package can store documentation, tests or other data in.")  
-set ( INSTALL_DOC  ${INSTALL_DATA}/doc CACHE PATH
+set ( INSTALL_DATA ${CMAKE_INSTALL_DOCDIR} CACHE PATH
+      "Directory the package can store documentation, tests or other data in.")
+set ( INSTALL_DOC  ${CMAKE_INSTALL_DOCDIR}/doc CACHE PATH
       "Recommended directory to install documentation into.")
-set ( INSTALL_EXAMPLE ${INSTALL_DATA}/example CACHE PATH
+set ( INSTALL_EXAMPLE ${CMAKE_INSTALL_DOCDIR}/example CACHE PATH
       "Recommended directory to install examples into.")
-set ( INSTALL_TEST ${INSTALL_DATA}/test CACHE PATH
+set ( INSTALL_TEST ${CMAKE_INSTALL_DOCDIR}/test CACHE PATH
       "Recommended directory to install tests into.")
-set ( INSTALL_FOO  ${INSTALL_DATA}/etc CACHE PATH
+set ( INSTALL_FOO  ${CMAKE_INSTALL_DOCDIR}/etc CACHE PATH
       "Where to install additional files")
 
 # Tweaks and other defaults
